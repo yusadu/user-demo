@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户信息</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css"/>
+    <script src="js/jquery-1.12.4.min.js"></script>
+    <script>
+        $(function () {
+            $.ajax({
+                url:"list_user",
+                type:"get",
+                success:function (list) {
+                    $.each(list,function (index,user) {
+                        $("#tab").append(
+                            "<tr>"+
+                                "<td>"+user.uid+"</td>"+
+                                "<td>"+user.uname+"</td>"+
+                                "<td>"+user.age+"</td>"+
+                                "<td>"+user.address+"</td>"+
+                            "</tr>"
+                        )
+                    })
+                }
+            })
+
+            $("#btnsave").click(function () {
+                var data=$("#f1").serialize();
+                $.ajax({
+                    url:"add",
+                    type: "post",
+                    data:data,
+                    success:function (message) {
+                        location.reload();
+                        alert(message);
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+    <h2>城市列表</h2>
+    <form id="f1">
+        <label for="uname">姓名：</label>
+        <input type="text" name="uname" id="uname" />&nbsp;
+        <label for="age">年龄：</label>
+        <input type="text" name="age" id="age"/>&nbsp;
+        <label for="address">地址：</label>
+        <input type="text" name="address" id="address"/>&nbsp;
+        <input type="button" id="btnsave" value="添加" />
+    </form>
+    <table id="tab" class="table table-bordered table-hover table-condensed">
+        <tr>
+            <td>编号</td>
+            <td>姓名</td>
+            <td>年龄</td>
+            <td>地址</td>
+        </tr>
+    </table>
+</body>
+</html>
